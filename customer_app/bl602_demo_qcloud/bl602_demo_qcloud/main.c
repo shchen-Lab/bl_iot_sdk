@@ -630,7 +630,7 @@ static void event_cb_wifi_event(input_event_t *event, void *private_data)
 
 static void __attribute__((unused)) cmd_aws(char *buf, int len, int argc, char **argv)
 {
-    
+
 }
 
 static void cmd_pka(char *buf, int len, int argc, char **argv)
@@ -1101,8 +1101,8 @@ void cmd_mfg(char *buf, int len, int argc, char **argv)
 }
 static void __attribute__((unused)) cmd_tencent(char *buf, int len, int argc, char **argv){
 
-    extern int bl_qcloud_main(void *arg);
-    xTaskCreate(bl_qcloud_main, (char*)"tencent cloud", 4096, NULL, 16, NULL);
+   void Start_Qcloud_Demo(void);
+   Start_Qcloud_Demo();
     //my_light_main();
 }
 
