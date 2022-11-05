@@ -1168,7 +1168,74 @@ static void cmd_wifi_power_table_update(char *buf, int len, int argc, char **arg
     //call this API before any other Wi-Fi related APi is called, to make sure every thing is all right
     bl_tpc_update_power_table(power_table_test);
 }
+#include <hal_hbnram.h>
 
+typedef struct mfg{
+    int ppm;
+    int channelList[13];
+    int duration;
+    int delay;
+    int txpower;
+}_mfg;
+
+int wifi_mgmr_restore_tx_parameter(char *ppm, uint8_t *channelList, char *duration, char *delay, char *txpower)
+{
+    uint8_t i = 0, ret;
+    const char key[] = "mfg";
+    
+    _mfg mfg_data;
+    _mfg mfg_data_recv;
+
+    mfg_data.ppm = atoi(ppm);
+    mfg_data.duration = atoi(duration);
+    mfg_data.delay = atoi(delay);
+    mfg_data.txpower = atoi(txpower);
+    for(i = 0;i<13;i++)
+        mfg_data.channelList[i] = channelList[i];
+    
+    hal_hbnram_init();
+    ret = hal_hbnram_alloc(key, sizeof(_mfg));
+    if (ret != 0) {
+        printf("Alloc failed \r\n");
+        print_mem_map();
+        return -1;
+    }        
+    //set data
+    hal_hbnram_buffer_set(key, (uint8_t *)&mfg_data, sizeof(_mfg));
+    //get data
+    hal_hbnram_buffer_get(key, (uint8_t *)&mfg_data_recv, sizeof(_mfg)); 
+    
+    if(memcmp(&mfg_data, &mfg_data_recv, sizeof(_mfg)) == 0){
+        printf("Write mfg data correctly \r\n");
+    } else {
+        printf("Write mfg data not correctly \r\n");
+    }
+
+    printf("data2 ppm:%d,dur:%d,delay:%d,txpower:%d\r\n",mfg_data_recv.ppm,mfg_data_recv.duration,mfg_data_recv.delay,mfg_data_recv.txpower);
+    for(i=0;i<13;i++)
+        printf("channel %d is:%d\r\n",i+1,mfg_data_recv.channelList[i]);    
+    
+    return 0;
+}
+
+static void cmd_wifi_restore_tx_parameter(char *buf, int len, int argc, char **argv)
+{
+    if(argc != 6)
+    {
+        printf("Input param numbers not right.Please Input like:wifi_restore_tx_para ppm channel1,channel2,channel3 duration delay txpower\r\n");    
+        return;
+    }
+    uint8_t channelList[13];
+    memset(channelList, 0, sizeof(channelList));
+    char *p_strtok = NULL;
+	for(p_strtok = strtok(argv[2],",");p_strtok != NULL;p_strtok = strtok(NULL,","))
+	{  
+        channelList[atoi(p_strtok)-1] = 1;		
+	}
+    printf("ppm is:%s,duration is:%s,delay is:%s,channel is:%s\r\n", argv[1],argv[3],argv[4],argv[5]);
+    wifi_mgmr_restore_tx_parameter(argv[1],channelList,argv[3],argv[4],argv[5]);
+    printf("Start to switch Msg Bin\r\n");
+}
 // STATIC_CLI_CMD_ATTRIBUTE makes this(these) command(s) static
 const static struct cli_command cmds_user[] STATIC_CLI_CMD_ATTRIBUTE = {
         { "rf_dump", "rf dump", cmd_rf_dump},
@@ -1211,6 +1278,7 @@ const static struct cli_command cmds_user[] STATIC_CLI_CMD_ATTRIBUTE = {
         { "wifi_edca_dump", "dump EDCA data", wifi_edca_dump_cmd},
         { "wifi_state", "get wifi_state", cmd_wifi_state_get},
         { "wifi_update_power", "Power table test command", cmd_wifi_power_table_update},
+        { "wifi_restore_tx_para", "Restore tx parameter", cmd_wifi_restore_tx_parameter},
 };                                                                                   
 
 int wifi_mgmr_cli_init(void)

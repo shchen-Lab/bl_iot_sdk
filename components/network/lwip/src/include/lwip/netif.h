@@ -283,7 +283,7 @@ struct netif {
   u32_t ip6_addr_pref_life[LWIP_IPV6_NUM_ADDRESSES];
 #endif /* LWIP_IPV6_ADDRESS_LIFETIMES */
 
-#ifdef CONFIG_ENABLE_IPV6_ADDR_CALLBACK
+#ifdef CFG_IPV6_ENABLE
   void (*ipv6_addr_cb)(struct netif *netif, u8_t ip_index);
 #endif
 

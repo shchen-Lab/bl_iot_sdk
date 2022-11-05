@@ -271,7 +271,7 @@ nd6_process_autoconfig_prefix(struct netif *netif,
 
   /* Assign the new address to the interface. */
   ip_addr_copy_from_ip6(netif->ip6_addr[free_idx], ip6addr);
-  #ifdef CONFIG_ENABLE_IPV6_ADDR_CALLBACK
+  #ifdef CFG_IPV6_ENABLE
   if (netif->ipv6_addr_cb != NULL)
   {
     netif->ipv6_addr_cb(netif, free_idx);

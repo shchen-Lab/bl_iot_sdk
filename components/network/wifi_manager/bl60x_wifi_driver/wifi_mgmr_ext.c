@@ -127,9 +127,20 @@ static int mac_is_unvalid(uint8_t mac[6])
     return 0;
 }
 
-#ifdef CONFIG_ENABLE_IPV6_ADDR_CALLBACK
+#ifdef CFG_IPV6_ENABLE
 static void netif_nd6_callback(struct netif *netif, uint8_t ip_index)
 {
+    printf("\r\nnetif_nd6_callback\r\n");
+	char strbuffer[40] = {0};
+	u8_t type = netif->ip6_addr[ip_index].type;
+	ip6_addr_t ip6addr = netif->ip6_addr[ip_index].u_addr.ip6;
+	printf("type = %d\r\n", type);
+	snprintf(strbuffer, sizeof(strbuffer),"%02lx%02lx:%02lx%02lx:%02lx%02lx:%02lx%02lx:%02lx%02lx:%02lx%02lx:%02lx%02lx:%02lx%02lx"\
+		,(ip6addr.addr[0]&0xff),((ip6addr.addr[0]>>8)&0xff), ((ip6addr.addr[0]>>16)&0xff), ((ip6addr.addr[0]>>24)&0xff)\
+		,(ip6addr.addr[1]&0xff),((ip6addr.addr[1]>>8)&0xff), ((ip6addr.addr[1]>>16)&0xff), ((ip6addr.addr[1]>>24)&0xff)\
+		,(ip6addr.addr[2]&0xff),((ip6addr.addr[2]>>8)&0xff), ((ip6addr.addr[2]>>16)&0xff), ((ip6addr.addr[2]>>24)&0xff)\
+		,(ip6addr.addr[3]&0xff),((ip6addr.addr[3]>>8)&0xff), ((ip6addr.addr[3]>>16)&0xff), ((ip6addr.addr[3]>>24)&0xff));
+	printf("IPv6 addr = %s \r\n", strbuffer);
     aos_post_event(EV_WIFI, CODE_WIFI_ON_GOT_IP6, 0);
 }
 
@@ -190,7 +201,7 @@ static void wifi_eth_sta_enable(struct netif *netif, uint8_t mac[6])
 
     netifapi_netif_add(netif, &ipaddr, &netmask, &gw, NULL, &bl606a0_wifi_netif_init, &tcpip_input);
 
-#ifdef CONFIG_ENABLE_IPV6_ADDR_CALLBACK
+#ifdef CFG_IPV6_ENABLE
     nd6_set_cb(netif, netif_nd6_callback);
 #endif
 

@@ -2471,7 +2471,7 @@
  * LWIP_IPV6_DUP_DETECT_ATTEMPTS=[0..7]: Number of duplicate address detection attempts.
  */
 #if !defined LWIP_IPV6_DUP_DETECT_ATTEMPTS || defined __DOXYGEN__
-#define LWIP_IPV6_DUP_DETECT_ATTEMPTS   1
+#define LWIP_IPV6_DUP_DETECT_ATTEMPTS   0
 #endif
 /**
  * @}

@@ -32,7 +32,7 @@ COMPONENT_SRCDIRS += bugkiller
 CFLAGS += -DBUGKILLER
 endif
 
-ifeq ($(CONFIG_IPV6), 1)
+ifeq ($(CONFIG_IPV6_ENABLE), 1)
 COMPONENT_SRCDIRS += src/core/ipv6
 endif
 ##

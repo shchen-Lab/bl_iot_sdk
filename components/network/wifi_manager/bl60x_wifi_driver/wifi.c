@@ -32,7 +32,7 @@
 #include <netif/etharp.h>
 #include <lwip/dns.h>
 
-#ifdef BL602_MATTER_SUPPORT
+#ifdef CFG_IPV6_ENABLE
 #include <lwip/ethip6.h>
 #endif
 
@@ -203,7 +203,7 @@ err_t bl606a0_wifi_netif_init(struct netif *netif)
     /* set netif maximum transfer unit */
     netif->mtu = 1500;
     /* Accept broadcast address and ARP traffic */
-#ifdef BL602_MATTER_SUPPORT
+#ifdef CFG_IPV6_ENABLE
     netif->flags = NETIF_FLAG_BROADCAST | NETIF_FLAG_ETHARP | NETIF_FLAG_ETHERNET | NETIF_FLAG_IGMP | NETIF_FLAG_MLD6;
     netif->output_ip6 = ethip6_output;
 #else
