@@ -630,7 +630,9 @@ static void event_cb_wifi_event(input_event_t *event, void *private_data)
 
 static void __attribute__((unused)) cmd_aws(char *buf, int len, int argc, char **argv)
 {
-
+    void Q_Cloud_Config_Net_Start(void) ;
+    
+    Q_Cloud_Config_Net_Start();
 }
 
 static void cmd_pka(char *buf, int len, int argc, char **argv)
@@ -1105,7 +1107,6 @@ static void __attribute__((unused)) cmd_tencent(char *buf, int len, int argc, ch
    Start_Qcloud_Demo();
     //my_light_main();
 }
-
 
 const static struct cli_command cmds_user[] STATIC_CLI_CMD_ATTRIBUTE = {
         { "aws", "aws iot demo", cmd_aws},

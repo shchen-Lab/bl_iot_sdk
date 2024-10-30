@@ -22,11 +22,11 @@ extern "C" {
 #define WIFI_ERR_LOG_POST 1
 #define WIFI_LOG_UPLOAD   1
 
-#define WIFI_PROV_SOFT_AP_ENABLE         0  ///< wifi provisioning method: device AP, need Wechat Applets
+#define WIFI_PROV_SOFT_AP_ENABLE         1  ///< wifi provisioning method: device AP, need Wechat Applets
 #define WIFI_PROV_SMART_CONFIG_ENABLE    0  ///< wifi provisioning method: smart config, need Wechat Applets
 #define WIFI_PROV_AIRKISS_CONFIG_ENABLE  0  ///< wifi provisioning method: airkiss, need Wechat Applets
 #define WIFI_PROV_SIMPLE_CONFIG_ENABLE   0  ///< wifi provisioning method: simple config, need Wechat Applets
-#define WIFI_PROV_BT_COMBO_CONFIG_ENABLE 1  ///< wifi provisioning method: bt combo config, need Wechat Applets
+#define WIFI_PROV_BT_COMBO_CONFIG_ENABLE 0  ///< wifi provisioning method: bt combo config, need Wechat Applets
 
 #define MAX_SSID_LEN 32  // max ssid len
 #define MAX_PSK_LEN  65  // max psk len

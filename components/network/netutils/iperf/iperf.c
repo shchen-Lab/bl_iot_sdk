@@ -65,7 +65,7 @@
 #endif
 #define IPERF_BUFSZ_UDP     (1 * 1300)
 #define DEBUG_HEADER        "[NET] [IPC] "
-#define DEFAULT_HOST_IP     "192.168.11.1"
+#define DEFAULT_HOST_IP     "192.168.4.1"
 #define IPERF_IP_LOCAL      "0.0.0.0"
 
 volatile int exit_flag = 0;
